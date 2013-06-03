@@ -9,31 +9,37 @@
     tools:context=".TwillioTestActivity">
 
     <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/dialButton"
-            android:src="@drawable/dial"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"/>
-
-    <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/numberField"
-            android:layout_marginBottom="18dp"
-            android:hint="Enter Number to Dial"
-            android:layout_above="@+id/imageButton"
-            android:layout_alignLeft="@+id/dialButton"
-            android:layout_alignRight="@+id/imageButton"/>
+        android:id="@+id/hangupButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/numberField"
+        android:layout_marginRight="18dp"
+        android:layout_marginTop="100dp"
+        android:src="@drawable/hangup" />
 
     <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/hangupButton"
-            android:src="@drawable/hangup"
-            android:layout_above="@+id/dialButton"
-            android:layout_alignLeft="@+id/dialButton"
-            android:layout_alignRight="@+id/dialButton"
-            android:layout_alignParentEnd="true"/>
+        android:id="@+id/dialButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/hangupButton"
+        android:layout_below="@+id/hangupButton"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/dial" />
+
+    <EditText
+        android:id="@+id/numberField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="34dp"
+        android:layout_marginTop="43dp"
+        android:ems="10"
+        android:hint="Enter Number to Dial" >
+
+        <requestFocus />
+    </EditText>
+
 </RelativeLayout>

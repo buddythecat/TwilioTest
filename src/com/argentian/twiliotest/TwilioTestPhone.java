@@ -15,6 +15,7 @@ import com.twilio.client.Connection;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class TwilioTestPhone implements Twilio.InitListener, DeviceListener{
 
@@ -24,18 +25,18 @@ public class TwilioTestPhone implements Twilio.InitListener, DeviceListener{
     protected String mCapabilityToken;
     private Connection mConnection;
 
-    class DownloadCapabilityTask extends AsyncTask<String, Integer, String> {
+    class DownloadCapabilityTask extends AsyncTask<Void, Void, Void> {
     	private static final String TAG = "DownloadCapabilityTask";
     	
     	@Override
-    	protected String doInBackground(String... params) {
+    	protected Void doInBackground(Void... params) {
     		try {
     			mDevice.updateCapabilityToken(HttpHelper.httpGet("http://argentiantech.net/auth.php"));
     		} catch (Exception e) {
     			 Log.e(TAG, "Failed to obtain compatibility token: " + e.getLocalizedMessage());
     			 return null;
     		}
-            Log.v(TAG, "Auth Token: " + params[0]);
+            //Log.v(TAG, "Auth Token: " + params[0]);
             return null;
     	}
     	
@@ -49,16 +50,9 @@ public class TwilioTestPhone implements Twilio.InitListener, DeviceListener{
     public void onInitialized() {
         Log.d(TAG, "Twilio SDK is ready");
 
-        try{
-            //Get the capability token from the webserver
-        	mDevice = Twilio.createDevice(null, null);
-        	new DownloadCapabilityTask().execute("");
-        	
-        	
-            Log.v(TAG, "Created Twilio Device!!! " + mDevice.getCapabilityToken());
-        } catch (Exception e){
-            Log.e(TAG, "Failed to obtain compatibility token: " + e.getLocalizedMessage());
-        }
+      mDevice = Twilio.createDevice(null, null);
+      new DownloadCapabilityTask().execute();
+      Log.v(TAG, "Created Twilio Device!!! " + mDevice.getCapabilityToken());
     }
 
     /**
@@ -66,10 +60,12 @@ public class TwilioTestPhone implements Twilio.InitListener, DeviceListener{
      * @param targetNumber - number to call
      */
     public void connect(String targetNumber){
+    	UUID callId = UUID.randomUUID();
         Log.v(TAG, "Capability Token: " + mDevice.getCapabilityToken());
         //create a hashmap to store the number to call (key = PhoneNumber)
         Map<String,String> params = new HashMap<String, String>();
         params.put("PhoneNumber", targetNumber);
+        params.put("CallID", callId.toString());
         //initialize connection
         mConnection = mDevice.connect(params, null);
         //ensure that the connection was established
@@ -87,13 +83,6 @@ public class TwilioTestPhone implements Twilio.InitListener, DeviceListener{
             Log.v(TAG, "Disconnected");
         }
     }
-
-    /*
-    _________________________________
-    Incoming Call methods are below
-    _________________________________
-     */
-    //This application does not need to answer incoming requests
 
     /*
     _________________________________

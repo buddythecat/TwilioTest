@@ -2,13 +2,14 @@ package com.argentian.twiliotest;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
 public class TwilioTestActivity extends Activity implements View.OnClickListener{
-
+	private static final String TAG = "TwilioTestActivity";
     private TwilioTestPhone mTestPhone;
     private EditText mNumberField;
 
@@ -43,6 +44,7 @@ public class TwilioTestActivity extends Activity implements View.OnClickListener
         }
         if(view.getId() == R.id.hangupButton){
             mTestPhone.disconnect();
+            Log.v(TAG, "attempting to disconnect");
         }
     }
 }
